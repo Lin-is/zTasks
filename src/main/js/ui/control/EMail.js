@@ -15,3 +15,53 @@ Z8.define('org.zenframework.z8.template.controls.EMail', {
 	}
 
 });
+
+Z8.define('org.zenframework.z8.template.controls.Youtube', {
+	extend: 'Z8.form.field.Text',
+	
+	getYoutubeVideoId: function(url) {
+	    var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+	    var match = url.match(regExp);
+	    if (match && match[2].length == 11) {
+	        return match[2];
+		} else {
+		    return 'error';
+		}
+	},
+	
+	renderVideo: function(value) {
+		let container = DOM.create("div", "row embed-responsive embed-responsive-16by9");
+		this.video = DOM.create("iframe", "embed-responsive-item");
+		container.append(this.video);
+		this.updateVideo(value);
+		return container;
+	},
+	
+	updateVideo: function(value) {
+		let videoId = this.getYoutubeVideoId(value.trim());
+		this.video.src = "//www.youtube.com/embed/" + videoId;
+	},
+	
+	onInput: function() {
+		
+		var rawValue = this.getRawValue();
+		var value = this.rawToValue(rawValue);
+		this.mixins.field.setValue.call(this, value);
+
+		if (value && value != '') {
+			if (this.video) {
+				this.updateVideo(value);
+			} else {
+				let place = this.getBox().parentElement.parentElement.parentElement.parentElement;
+				let history = place.lastChild;
+				let container = this.renderVideo(value);
+				place.insertBefore(container, history);
+			}
+		} else {
+			if (this.video) {
+				this.video.parentElement.remove();
+				this.video = null;
+			}
+		}
+	},
+});
