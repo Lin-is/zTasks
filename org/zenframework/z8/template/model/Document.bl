@@ -4,6 +4,7 @@ import org.zenframework.z8.base.table.value.FileField;
 import org.zenframework.z8.base.table.value.Link;
 import org.zenframework.z8.base.table.value.StringExpression;
 import org.zenframework.z8.base.table.value.StringField;
+import org.zenframework.z8.base.table.value.TextField;
 
 /*
  * Атрибут [generatable] указывает Z8, что таблица, которую описывает класс,
@@ -49,6 +50,20 @@ public class Document extends Table {
 	public StringField youtube; 
 	youtube.length = 500;
 	youtube.colSpan = 2;
+	
+	[name "player"]
+	[displayName "Audio"]
+	public StringField audio;
+	audio.height = 1;
+	audio.colSpan = 2;
+	
+	[name "xml"]
+	[displayName "XML"]
+	public TextField xml;
+	xml.colSpan = 2;
+	xml.height = 2;
+	
+
 
 
 	[displayName "Документ"]
