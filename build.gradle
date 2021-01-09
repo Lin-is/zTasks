@@ -95,7 +95,6 @@ distributions {
 			from(buildDir) {
 				include 'bin/**'
 				include 'conf/**'
-				include 'web/**'
 				exclude 'web/debug/**'
 				exclude 'web/debug.html'
 				exclude 'web/WEB-INF/**'

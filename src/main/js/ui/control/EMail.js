@@ -13,7 +13,6 @@ Z8.define('org.zenframework.z8.template.controls.EMail', {
 		var value = this.getValue();
 		this.setValid(/.+@.+/.test(value));
 	}
-
 });
 
 Z8.define('org.zenframework.z8.template.controls.xml', {
@@ -50,7 +49,6 @@ Z8.define('org.zenframework.z8.template.controls.xml', {
 		this.code.style.padding= "0.14285714em";
 		this.code.style.whiteSpace = "pre-wrap";
 		this.code.style.wordWrap = "break-word";
-		this.code.style.background = "transparent";
 	},
 	
 	setMainStyles: function() {
@@ -61,6 +59,21 @@ Z8.define('org.zenframework.z8.template.controls.xml', {
 		this.elem.style.overflowY = "auto";
 	},
 	
+	addHljs: function() {
+		var hlScript = DOM.create("script");
+		hlScript.src = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js";
+		hlScript.type = "text/javascript";
+		var style = DOM.create("link");
+		style.href = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/googlecode.min.css";
+		style.type = "text/css";
+		var hlRun = DOM.create("script");
+		hlRun.innerHTML = "hljs.initHighlightingOnLoad();";
+		hlRun.type = "text/javascript";
+		
+		document.querySelector("head").appendChild(style);
+		document.querySelector("head").appendChild(hlScript);
+	},
+
 	synchronizeScroll: function() {
 		var scroll = this.elem.scrollTop;
 		this.wrapper.scrollTop = scroll;
@@ -69,10 +82,10 @@ Z8.define('org.zenframework.z8.template.controls.xml', {
 	},
 	
 	createContainers: function() {
-		if (!this.code){
+		if (!this.code) {
 			this.wrapper = DOM.create("div", "wrapper");
 			this.pre = DOM.create("pre", "pre");
-			this.code = DOM.create("code", "code textarea control");
+			this.code = DOM.create("code", "code textarea control xml");
 			this.wrapper.append(this.pre);
 			this.pre.append(this.code);
 		} else {
@@ -90,7 +103,7 @@ Z8.define('org.zenframework.z8.template.controls.xml', {
 	
 	completeRender: function() {
 		Z8.form.field.TextArea.prototype.completeRender.call(this);
-
+		
 		this.elem = DOM.selectNode(this.getCls());
 		this.elem.setAttribute("scrollable", "scrollable");
 		if (!this.code) {
@@ -135,7 +148,6 @@ Z8.define('org.zenframework.z8.template.controls.Youtube', {
 	},
 	
 	onInput: function() {
-		
 		var rawValue = this.getRawValue();
 		var value = this.rawToValue(rawValue);
 		this.mixins.field.setValue.call(this, value);
@@ -170,7 +182,6 @@ Z8.define('org.zenfraemwork.z8.template.controls.audio', {
 	getAudio: function(e) {
 		let player = document.querySelector(".audioPlayer");
 		var file = e.target.files[0];
-		console.log("file", file);
 		if (file) {
 			var reader = new FileReader();
 			reader.onload = function(evt) {
@@ -178,7 +189,6 @@ Z8.define('org.zenfraemwork.z8.template.controls.audio', {
 				player.load();
 			};
 			reader.readAsDataURL(file);
-			console.log("readed");
 		} else {
 			return;
 		}
